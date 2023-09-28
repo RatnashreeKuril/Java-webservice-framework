@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>TMWebRock Test</title>
+<script src='jquery/jquery.js'></script>
+<script>
+$(()=>{
+alert("Hello");
+$.ajax({
+"url" : "schoolService/getAllStudents/getAll",
+"success" : function(responseData){
+alert(responseData.length);
+},
+"failure" : function(){
+alert("Some problem");
+}
+});
+
+});
+</script>
+</head>
+<body>
+<h1>Get All Students</h1>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>TMWebRock Test</title>
+<script src='jquery/jquery.js'></script>
+<script src='/tmwebrock/getJS?name=abcd.js'></script>
+<script>
+function addStudent()
+{
+var student=new Student();
+student.name=$("input[name='name']:eq(0)").val();
+student.gender=$("input[name='gender']:checked").val();
+var studentService=new StudentService();
+var prm=studentService.add(student);
+prm.then(function(result){
+alert("Student added");
+},function(error){
+alert(error);
+});
+}
+function updateStudent()
+{
+var formArray=$("#updateForm").serializeArray();
+var student={};
+for(var e=0;e<formArray.length;e++)
+{
+student[formArray[e].name]=formArray[e].value;
+}
+var studentService=new StudentService();
+var prm=studentService.update(student);
+prm.then(function(result){
+alert("Student updated");
+},function(error){
+alert(error);
+});
+
+}
+function deleteStudent()
+{
+var formData=$("#deleteForm").serialize();
+var studentService=new StudentService();
+var prm=studentService.delete(formData);
+prm.then(function(result){
+alert("Student deleted");
+},function(error){
+alert(error);
+});
+}
+
+function getStudentByRollNumber()
+{
+var formData=$("#getByRollNumberForm").serialize();
+var studentService=new StudentService();
+var prm=studentService.getByRollNumber(formData);
+prm.then(function(result){
+$("#studentInfo").text("");
+$("#studentInfo").append(result.rollNumber+"<br>");
+$("#studentInfo").append(result.name+"<br>");
+$("#studentInfo").append(result.gender+"<br>");
+},function(error){
+alert(error);
+});
+}
+
+function getAllStudents()
+{
+var studentService=new StudentService();
+var prm=studentService.getAll();
+prm.then(function(result){
+var table=document.getElementsByTagName("tbody")[0];
+table.innerHTML="";
+var row;
+var cell;
+for(var e=0;e<result.length;e++)
+{
+row=document.createElement("tr");
+cell=document.createElement("td");
+cell.innerHTML=result[e].rollNumber;
+row.appendChild(cell);
+
+cell=document.createElement("td");
+cell.innerHTML=result[e].name;
+row.appendChild(cell);
+
+cell=document.createElement("td");
+cell.innerHTML=result[e].gender;
+row.appendChild(cell);
+
+table.appendChild(row);
+}
+},function(error){
+alert(error);
+});
+}
+
+</script>
+</head>
+<body>
+
+<form id='addForm'>
+Enter name <input type='text' name='name' id='name'><br>
+Select Gender 
+<input type='radio' name='gender' id='M' value='M'> Male&nbsp;&nbsp;
+<input type='radio' name='gender' id='F' value='F'> Female<br>
+<button type='button' onclick='addStudent()'>Add</button><br><br>
+</form>
+
+<form id='updateForm'>
+Enter roll number <input type='text' name='rollNumber' id='rollNumber'><br>
+Enter name <input type='text' name='name' id='name'><br>
+Select Gender 
+<input type='radio' name='gender' id='M' value='M'> Male&nbsp;&nbsp;
+<input type='radio' name='gender' id='F' value='F'> Female<br>
+<button type='button' onclick='updateStudent()'>Update</button><br><br>
+</form>
+
+<form id='deleteForm'>
+Enter roll number <input type='text' name='rollNumber' id='rollNumber'><br>
+<button type='button' onclick='deleteStudent()'>Delete</button><br><br>
+</form>
+
+<form id='getByRollNumberForm'>
+Enter roll number <input type='text' name='rollNumber' id='rollNumber'><br>
+<button type='button' onclick='getStudentByRollNumber()'>Get by roll number</button><br><br>
+</form>
+<div id='studentInfo'>
+</div>
+<br>
+<br>
+<h3>Students</h3>
+<table id='students' border='1'>
+<thead>
+<tr>
+<th>Roll number</th>
+<th>Name</th>
+<th>Gender</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+<br>
+<br>
+<button type='button' onclick='getAllStudents()'>Get all</button>
+</body>
+</html>

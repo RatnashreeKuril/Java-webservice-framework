@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>TMWebRock Test</title>
+<script src='jquery/jquery.js'>
+</script>
+<script>
+$(()=>{
+var student={
+"rollNumber" : 109,
+"name" : "Rajat"
+};
+$.ajax({
+"url" : "schoolService/processData5/sendJson",
+"method" : "POST",
+"contentType" : "application/json",
+"data" : JSON.stringify(student),
+"success" : function(responseData){
+alert(responseData.rollNumber);
+alert(responseData.name);
+},
+"failure" : function(){
+alert("Some problem");
+}
+});
+});
+</script>
+</head>
+<body>
+<button id='sendJson' type='button' onclick='sendJson()'>Send Json</button>
+</body>
+</html>
